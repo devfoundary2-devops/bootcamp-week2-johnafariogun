@@ -390,7 +390,6 @@ spec:
   - port: 3001
     targetPort: 3001
 ```
-
 ### Step 5: Build and Load Images
 
 ```bash
