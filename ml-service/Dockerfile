@@ -20,7 +20,7 @@ USER app
 COPY --chown=app:app requirements.txt .
 RUN pip install --user --no-cache-dir -r requirements.txt
 COPY --chown=app:app . .
-EXPOSE 3002
+EXPOSE 5000
 CMD ["python", "app.py"]
 
 # Production stage
@@ -37,13 +37,16 @@ RUN pip install --user --no-cache-dir -r requirements.txt gunicorn
 
 # Copy application code
 COPY --chown=app:app app.py .
+COPY --chown=app:app metrics.py .
+COPY --chown=app:app telemetry.py .
+COPY --chown=app:app logging_config.py .
 COPY --chown=app:app .env* ./
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:3002/health || exit 1
+    CMD curl -f http://localhost:5000/health || exit 1
 
-EXPOSE 3002
+EXPOSE 5000
 
 # Use gunicorn for production
-CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:3002", "--workers", "2", "--threads", "4", "--worker-class", "gthread", "app:app"]
+CMD ["python", "-m", "gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--threads", "4", "--worker-class", "gthread", "app:app"]

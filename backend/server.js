@@ -62,7 +62,54 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/frontend-metrics', frontendMetricsRoutes);
 app.get('/metrics', getMetrics);
+// 🥚 Easter Egg #1: Secret Bootcamp Endpoint
+app.get('/api/bootcamp/secret', (req, res) => {
+  const secretMessage = {
+    message: "🎉 Congratulations! You found the secret bootcamp endpoint!",
+    achievement: "Secret Discoverer",
+    hint: "The real treasure was the Kubernetes knowledge you gained along the way",
+    badge: "🏆 Easter Egg Hunter - Level 1",
+    nextHint: "Try the Konami code on the frontend: ↑↑↓↓←→←→BA"
+  };
+  
+  logger.info('Secret endpoint accessed', { 
+    ip: req.ip, 
+    userAgent: req.get('User-Agent'),
+    achievement: 'easter_egg_1_found'
+  });
+  
+  res.json(secretMessage);
+});
 
+// 🥚 Easter Egg #4: Pod Whisperer Detection
+app.get('/api/pod-identity', (req, res) => {
+  const hostname = require('os').hostname();
+  const isPodWhisperer = hostname.includes('gopher') || 
+                        hostname.includes('kubernetes') || 
+                        hostname.includes('k8s-mascot');
+  
+  if (isPodWhisperer) {
+    logger.info(`
+    🎉 POD WHISPERER DETECTED! 🎉
+    
+         .-"-.
+        /     \\
+       | () () |
+        \\  ^  /
+         |||||
+         |||||
+    
+    You have unlocked the Pod Whisperer achievement!
+    The Kubernetes Gopher approves of your naming skills!
+    `);
+  }
+  
+  res.json({
+    hostname,
+    isPodWhisperer,
+    message: isPodWhisperer ? "🎊 Pod Whisperer Achievement Unlocked!" : "Try naming your pod with a Kubernetes mascot name"
+  });
+});
 // Error logging middleware (must be before error handlers)
 app.use(errorLogger);
 
@@ -118,54 +165,7 @@ const server = app.listen(PORT, () => {
   });
 });
 
-// 🥚 Easter Egg #1: Secret Bootcamp Endpoint
-app.get('/api/bootcamp/secret', (req, res) => {
-  const secretMessage = {
-    message: "🎉 Congratulations! You found the secret bootcamp endpoint!",
-    achievement: "Secret Discoverer",
-    hint: "The real treasure was the Kubernetes knowledge you gained along the way",
-    badge: "🏆 Easter Egg Hunter - Level 1",
-    nextHint: "Try the Konami code on the frontend: ↑↑↓↓←→←→BA"
-  };
-  
-  logger.info('Secret endpoint accessed', { 
-    ip: req.ip, 
-    userAgent: req.get('User-Agent'),
-    achievement: 'easter_egg_1_found'
-  });
-  
-  res.json(secretMessage);
-});
 
-// 🥚 Easter Egg #4: Pod Whisperer Detection
-app.get('/api/pod-identity', (req, res) => {
-  const hostname = require('os').hostname();
-  const isPodWhisperer = hostname.includes('gopher') || 
-                        hostname.includes('kubernetes') || 
-                        hostname.includes('k8s-mascot');
-  
-  if (isPodWhisperer) {
-    logger.info(`
-    🎉 POD WHISPERER DETECTED! 🎉
-    
-         .-"-.
-        /     \\
-       | () () |
-        \\  ^  /
-         |||||
-         |||||
-    
-    You have unlocked the Pod Whisperer achievement!
-    The Kubernetes Gopher approves of your naming skills!
-    `);
-  }
-  
-  res.json({
-    hostname,
-    isPodWhisperer,
-    message: isPodWhisperer ? "🎊 Pod Whisperer Achievement Unlocked!" : "Try naming your pod with a Kubernetes mascot name"
-  });
-});
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
