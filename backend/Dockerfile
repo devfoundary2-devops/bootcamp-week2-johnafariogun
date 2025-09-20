@@ -1,5 +1,5 @@
 # Multi-stage build for optimized production image
-FROM node:18-alpine AS base
+FROM node:20-alpine3.22 AS base
 
 # Install security updates and common tools
 RUN apk update && apk upgrade && \
@@ -38,6 +38,7 @@ COPY --from=builder --chown=nodejs:nodejs /usr/src/app/node_modules ./node_modul
 # Copy application code
 COPY --chown=nodejs:nodejs package*.json ./
 COPY --chown=nodejs:nodejs server.js ./
+COPY --chown=nodejs:nodejs telemetry.js ./
 COPY --chown=nodejs:nodejs routes/ ./routes/
 COPY --chown=nodejs:nodejs middleware/ ./middleware/
 
