@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: shopmicro-backend:latest
+        image: shopmicro-backend:v3
         imagePullPolicy: Never
         env:
         - name: NODE_ENV
