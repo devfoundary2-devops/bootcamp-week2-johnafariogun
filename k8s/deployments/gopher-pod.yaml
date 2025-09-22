@@ -1,8 +1,8 @@
-# k8s/deployments/backend.yaml
+# k8s/deployments/backend.yaml parody as gopher mascot
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: k8s-gopher-mascot
   namespace: shopmicro
   labels:
     app: backend
@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: shopmicro-backend:v3 # I had too build this image locally so using v3 cause kubectl kept using the cached images
+        image: shopmicro-backend:v3
         imagePullPolicy: Never
         env:
         - name: NODE_ENV
