@@ -63,7 +63,7 @@ spec:
   selector:
     app: ml-service
   ports:
-  - port: 5000
+  - port: 5000 # wasn't exposed before and had to put the right port here
     targetPort: 5000
     name: http
   type: ClusterIP

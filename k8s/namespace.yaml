@@ -5,3 +5,5 @@ metadata:
   labels:
     name: shopmicro
     purpose: bootcamp-lab
+  annotations:
+    retro.mode: "1985" # sets the mode for all resources in this namespace to retro 1985 mode
