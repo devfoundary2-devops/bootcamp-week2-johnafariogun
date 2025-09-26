@@ -36,5 +36,6 @@ data:
       tsdb_shipper: # added this section based on loki docs to fix startup error
         active_index_directory: /var/loki/index
         cache_location: /var/loki/index_cache
+        shared_store: filesystem
       filesystem:
         directory: /var/loki/chunks

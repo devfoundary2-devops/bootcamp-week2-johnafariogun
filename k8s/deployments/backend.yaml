@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: shopmicro-backend:v3 # I had too build this image locally so using v3 cause kubectl kept using the cached images
+        image: shopmicro-backend:latest
         imagePullPolicy: Never
         env:
         - name: NODE_ENV
@@ -40,6 +40,12 @@ spec:
         ports:
         - containerPort: 3001
           name: http
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          failureThreshold: 30
+          periodSeconds: 2
         livenessProbe:
           httpGet:
             path: /health
